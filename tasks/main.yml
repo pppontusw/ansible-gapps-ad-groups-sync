@@ -1,0 +1,79 @@
+- include: "{{ ansible_os_family }}.yml"
+  become: yes
+
+- name: pip install
+  pip: name={{item}}
+  with_items:
+    - google-api-python-client
+    - python-ldap
+    - tinydb
+  become: yes
+
+- name: create application folder
+  file: 
+    path: '/opt/gapps-ad-groups-sync'
+    state: directory
+    owner: "{{gapps_group_sync_user}}"
+    group: "{{gapps_group_sync_user}}"
+    mode: 0755
+  become: yes
+
+- name: git clone
+  git: repo=https://github.com/pppontusw/gapps-ad-groups-sync.git dest=/opt/gapps-ad-groups-sync
+
+- name: copy configs
+  template:
+    src: "../templates/{{item}}.j2"
+    dest: "/opt/gapps-ad-groups-sync/{{item}}"
+    owner: "{{gapps_group_sync_user}}"
+    group: "{{gapps_group_sync_user}}"
+    mode: 0644
+  with_items: 
+    - config.ini
+    - initdb.json
+
+- name: copy keys
+  template:
+    src: "../templates/{{item}}"
+    dest: "/opt/gapps-ad-groups-sync/{{item}}"
+    owner: "{{gapps_group_sync_user}}"
+    group: "{{gapps_group_sync_user}}"
+    mode: 0644
+  with_items: 
+    - "{{CLIENT_SECRET_FILE_PATH}}"
+  when: CLIENT_SECRET_FILE_PATH is defined
+
+- name: copy service account keys
+  template:
+    src: "../templates/{{item}}"
+    dest: "/opt/gapps-ad-groups-sync/{{item}}"
+    owner: "{{gapps_group_sync_user}}"
+    group: "{{gapps_group_sync_user}}"
+    mode: 0644
+  with_items: 
+    - "{{SERVICE_ACCOUNT_JSON_FILE_PATH}}"
+  when: SERVICE_ACCOUNT_JSON_FILE_PATH is defined
+
+- name: initialize database
+  shell: 'cd /opt/gapps-ad-groups-sync/ && python initdb.py --no-confirm'
+  become: yes
+
+- name: chown 
+  file: 
+    path: "/opt/gapps-ad-groups-sync/{{item}}"
+    state: touch
+    owner: "{{gapps_group_sync_user}}"
+    group: "{{gapps_group_sync_user}}"
+    mode: 0644
+  with_items: 
+      - config.ini
+      - initdb.json
+      - db.json
+
+- name: add task to cron # only when we have a service account
+  cron: 
+    name: 'Google Apps Group Sync'
+    minute: '0'
+    hour: '*'
+    job: 'cd /opt/gapps-ad-groups-sync/ && python gappslistsync.py --service-account'
+  when: SERVICE_ACCOUNT_JSON_FILE_PATH is defined

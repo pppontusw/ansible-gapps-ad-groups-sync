@@ -1,0 +1,16 @@
+[AD_Config]
+LDAPBaseDN={{LDAPBaseDN}}
+LDAPUrl={{LDAPUrl}}
+LDAPUserDN={{LDAPUserDN}}
+LDAPUserPassword={{LDAPUserPassword}}
+{% if LDAPAllUserGroupDN %}
+#A common group for all users - any users not in this group will not be processed
+LDAPAllUserGroupDN={{LDAPAllUserGroupDN}}
+{% endif %}
+
+[Google_Config]
+CLIENT_SECRET_FILE_PATH={{CLIENT_SECRET_FILE_PATH}}
+{% if SERVICE_ACCOUNT_JSON_FILE_PATH %}
+SERVICE_ACCOUNT_JSON_FILE_PATH={{SERVICE_ACCOUNT_JSON_FILE_PATH}}
+SERVICE_ACCOUNT_IMPERSONATE_ACCOUNT={{SERVICE_ACCOUNT_IMPERSONATE_ACCOUNT}}
+{% endif %}

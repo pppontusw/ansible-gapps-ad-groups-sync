@@ -1,0 +1,12 @@
+- name: install debian prerequisites
+  apt:  name={{ item }} state=present install_recommends={{ linux_desktop_apt_install_recommends }}
+  with_items:
+    - libsasl2-dev 
+    - libldap2-dev 
+    - libssl-dev
+    - python
+    - python-pip
+    - python-dev 
+    - git
+    - build-essential
+    - gcc

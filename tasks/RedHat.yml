@@ -1,0 +1,10 @@
+- name: install prequisites
+  yum: name={{item}} state=present enablerepo=epel
+  with_items:
+    - python
+    - python-pip
+    - python-devel
+    - git
+    - openldap-devel
+    - cyrus-sasl-devel
+    - gcc
