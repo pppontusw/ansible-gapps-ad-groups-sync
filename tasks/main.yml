@@ -32,27 +32,18 @@
     - config.ini
     - initdb.json
 
-- name: copy keys
-  template:
-    src: "../templates/{{item}}"
-    dest: "/opt/gapps-ad-groups-sync/{{item}}"
-    owner: "{{gapps_group_sync_user}}"
-    group: "{{gapps_group_sync_user}}"
-    mode: 0644
-  with_items: 
-    - "{{CLIENT_SECRET_FILE_PATH}}"
+- name: Copy client secret
+  copy: 
+    content: "{{CLIENT_SECRET_JSON}}" 
+    dest: "/opt/gapps-ad-groups-sync/{{CLIENT_SECRET_FILE_PATH}}"
   when: CLIENT_SECRET_FILE_PATH is defined
 
-- name: copy service account keys
-  template:
-    src: "../templates/{{item}}"
-    dest: "/opt/gapps-ad-groups-sync/{{item}}"
-    owner: "{{gapps_group_sync_user}}"
-    group: "{{gapps_group_sync_user}}"
-    mode: 0644
-  with_items: 
-    - "{{SERVICE_ACCOUNT_JSON_FILE_PATH}}"
+- name: Copy secret key
+  copy: 
+    content: "{{SECRET_KEY_JSON}}" 
+    dest: "/opt/gapps-ad-groups-sync/{{SERVICE_ACCOUNT_JSON_FILE_PATH}}"
   when: SERVICE_ACCOUNT_JSON_FILE_PATH is defined
+
 
 - name: initialize database
   shell: 'cd /opt/gapps-ad-groups-sync/ && python initdb.py --no-confirm'

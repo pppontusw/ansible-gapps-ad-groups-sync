@@ -32,6 +32,7 @@ For example we can pass the following settings (no service account):
     - LDAPUserPassword: 'notapassword'
     - LDAPAllUserGroupDN: 'CN=GoogleUsers,OU=OrgUnit,DC=example,DC=com'
     - CLIENT_SECRET_FILE_PATH: 'client_secret.json'
+    - CLIENT_SECRET_JSON: <jsonfileetc>
   roles:
     - gapps-group-sync
 ```

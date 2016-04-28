@@ -5,8 +5,12 @@ LDAPUrl: 'ldap://example.com'
 LDAPUserDN: 'gadgs@example'
 LDAPUserPassword: 'notapassword'
 LDAPAllUserGroupDN: 'CN=GoogleUsers,OU=OrgUnit,DC=example,DC=com'
-# put this key in templates
+# name for the clientID
 CLIENT_SECRET_FILE_PATH: 'client_secret.json'
+# client ID here
+# CLIENT_SECRET_JSON: <json>
 # uncomment these to use a service account configuration and put the key in templates
 #SERVICE_ACCOUNT_JSON_FILE_PATH: 'secret_key.json'
 #SERVICE_ACCOUNT_IMPERSONATE_ACCOUNT: 'superadmin@example.com'
+# Secret key for Service Account
+#SECRET_KEY_JSON: <json>
