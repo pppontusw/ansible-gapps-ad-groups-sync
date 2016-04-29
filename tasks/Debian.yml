@@ -1,5 +1,5 @@
 - name: install debian prerequisites
-  apt:  name={{ item }} state=present install_recommends={{ linux_desktop_apt_install_recommends }}
+  apt:  name={{ item }} state=present
   with_items:
     - libsasl2-dev 
     - libldap2-dev 
