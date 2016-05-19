@@ -62,7 +62,7 @@ and a JSON file that looks like this:
         "value": "Finland"
         }
     ],
-    "type": "AND"
+    "type": "OR"
     },
     {
     "gappslist": "US-IT@example.com",
@@ -76,7 +76,7 @@ and a JSON file that looks like this:
         "value": "IT"
         }
     ],
-    "type": "OR"
+    "type": "AND"
 }]
 ```
 
