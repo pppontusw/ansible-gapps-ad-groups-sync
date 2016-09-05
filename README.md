@@ -47,24 +47,11 @@ and a JSON file that looks like this:
     "members": [
         {
         "attribute": "physicalDeliveryOfficeName",
-        "value": "Denmark"
-        },
-        {
-        "attribute": "physicalDeliveryOfficeName",
-        "value": "Sweden"
-        },
-        {
-        "attribute": "physicalDeliveryOfficeName",
-        "value": "Norway"
-        },
-        {
-        "attribute": "physicalDeliveryOfficeName",
-        "value": "Finland"
+        "value": ["Denmark", "Sweden", "Norway", "Finland"]
         }
-    ],
-    "type": "OR"
-    },
-    {
+    ]
+},
+{
     "gappslist": "US-IT@example.com",
     "members": [
         {
@@ -75,9 +62,18 @@ and a JSON file that looks like this:
         "attribute": "Department",
         "value": "IT"
         }
-    ],
-    "type": "AND"
-}]
+    ]
+},
+{
+    "gappslist": "IT-Tech@example.com",
+    "members": [
+        {
+        "attribute": "LDAPQuery",
+        "value": "(|(Department=Technology)(Department=IT))"
+        }
+    ]
+}
+]
 ```
 
 ``` ansible-playbook example-playbook.yml ```
